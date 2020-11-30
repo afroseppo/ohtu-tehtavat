@@ -13,18 +13,26 @@ import javafx.scene.control.TextField;
  * @author tiitinha
  */
 public class Summa extends Komento {
-    
+
     public Summa(TextField tuloskentta, TextField syotekentta, Button nollaa, Button undo, Sovelluslogiikka sovellus) {
         super(tuloskentta, syotekentta, nollaa, undo, sovellus);
     }
-    
+
     @Override
     public void suorita() {
-        edellinenTulos = arvo(tuloskentta);
+        edellinenLasku = arvo(syotekentta);
         int inputArvo = arvo(syotekentta);
         sovellus.plus(inputArvo);
         int laskunTulos = sovellus.tulos();
         tuloskentta.setText("" + laskunTulos);
+        asetaNollausJaUndo(laskunTulos);
     }
-    
+
+    @Override
+    public void peru() {
+        sovellus.miinus(edellinenLasku);
+        tuloskentta.setText("" + sovellus.tulos());
+        undo.disableProperty().set(true);
+    }
+
 }

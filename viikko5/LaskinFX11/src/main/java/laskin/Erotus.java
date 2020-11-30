@@ -13,17 +13,25 @@ import javafx.scene.control.TextField;
  * @author tiitinha
  */
 public class Erotus extends Komento {
-    
+
     public Erotus(TextField tuloskentta, TextField syotekentta, Button nollaa, Button undo, Sovelluslogiikka sovellus) {
         super(tuloskentta, syotekentta, nollaa, undo, sovellus);
     }
-    
+
     @Override
     public void suorita() {
-        edellinenTulos = arvo(tuloskentta);
+        edellinenLasku = arvo(syotekentta);
         int inputArvo = arvo(syotekentta);
         sovellus.miinus(inputArvo);
         int laskunTulos = sovellus.tulos();
         tuloskentta.setText("" + laskunTulos);
+        asetaNollausJaUndo(laskunTulos);
+    }
+
+    @Override
+    public void peru() {
+        sovellus.plus(edellinenLasku);
+        tuloskentta.setText("" + sovellus.tulos());
+        undo.disableProperty().set(true);
     }
 }

@@ -13,15 +13,29 @@ import javafx.scene.control.TextField;
  * @author tiitinha
  */
 public class Nollaa extends Komento {
-    
+
     public Nollaa(TextField tuloskentta, TextField syotekentta, Button nollaa, Button undo, Sovelluslogiikka sovellus) {
         super(tuloskentta, syotekentta, nollaa, undo, sovellus);
     }
-    
+
     @Override
     public void suorita() {
-        edellinenTulos = arvo(tuloskentta);
+        edellinenLasku = arvo(syotekentta);
         sovellus.nollaa();
+        tuloskentta.setText("0");
+        asetaNollausJaUndo(sovellus.tulos());
     }
-    
+
+    @Override
+    public void peru() {
+        if (edellinenLasku > 0) {
+            sovellus.plus(edellinenLasku);
+            tuloskentta.setText("" + sovellus.tulos());
+        } else {
+            sovellus.miinus(edellinenLasku);
+            tuloskentta.setText("" + sovellus.tulos());
+        }
+        undo.disableProperty().set(true);
+    }
+
 }
